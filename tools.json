@@ -1,0 +1,75 @@
+[
+  {
+    "name": "ga_clinic_rates",
+    "description": "Georgia MEDICAID (not Medicare) FQHC (federally qualified health center) and rural health clinic (RHC: freestanding, hospital-based, critical-access) PPS per-visit rates, PER MEDICAID PROVIDER ID and federal fiscal year, from the Georgia Department of Community Health (DCH). Lists carry only the provider ID and the rate: no clinic names or addresses, and none are guessed. Look up one ID (shows its rate in every year held), or browse a program and year, or filter by rate range. Not a per-procedure fee schedule. An unmatched filter returns similar IDs or the valid values.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "provider_id": {
+          "type": "string",
+          "description": "Medicaid provider ID as a string, e.g. \"003140498A\"; a 9-digit prefix matches every suffix. Leading zeros matter."
+        },
+        "program": {
+          "type": "string",
+          "enum": [
+            "FQHC",
+            "FS_RHC",
+            "HB_RHC",
+            "CAH_RHC",
+            "all"
+          ],
+          "description": "FQHC, FS_RHC (freestanding RHC), HB_RHC (hospital-based RHC), CAH_RHC (critical-access RHC), or \"all\" (default)."
+        },
+        "ffy": {
+          "type": "string",
+          "description": "Federal fiscal year, e.g. \"2027\" (1 Oct 2026 to 30 Sep 2027), or \"all\". Default: newest year when browsing, every year when provider_id is given."
+        },
+        "min_rate": {
+          "type": "number",
+          "description": "Only rates at or above this many dollars per visit."
+        },
+        "max_rate": {
+          "type": "number",
+          "description": "Only rates at or below this many dollars per visit."
+        },
+        "limit": {
+          "type": "number",
+          "description": "Max rows (default 25, max 200). Summaries cover every match."
+        }
+      }
+    }
+  },
+  {
+    "name": "ga_rate_summary",
+    "description": "Georgia Medicaid FQHC and rural health clinic PPS rate lists at a glance (Georgia Department of Community Health): which lists exist for each federal fiscal year, how many provider IDs each carries, min/median/max/mean per-visit rate, optionally grouped by program or fiscal year. States what the lists do not contain (clinic names) and the date the newest lists were posted.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "program": {
+          "type": "string",
+          "enum": [
+            "FQHC",
+            "FS_RHC",
+            "HB_RHC",
+            "CAH_RHC",
+            "all"
+          ],
+          "description": "One program, or omit for all four."
+        },
+        "ffy": {
+          "type": "string",
+          "description": "Federal fiscal year, e.g. \"2026\", or \"all\". Default: newest."
+        },
+        "group_by": {
+          "type": "string",
+          "enum": [
+            "none",
+            "program",
+            "ffy"
+          ],
+          "description": "Group the rate statistics (default none)."
+        }
+      }
+    }
+  }
+]
